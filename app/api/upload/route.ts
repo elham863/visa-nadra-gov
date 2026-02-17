@@ -1,8 +1,4 @@
 import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
-
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
 
 export async function POST(request: Request) {
   try {
@@ -32,17 +28,9 @@ export async function POST(request: Request) {
       );
     }
 
-    await mkdir(UPLOAD_DIR, { recursive: true });
-
-    const ext = path.extname(file.name) || ".jpg";
-    const safeName = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}${ext}`;
-    const filePath = path.join(UPLOAD_DIR, safeName);
-
     const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    await writeFile(filePath, buffer);
-
-    const url = `/uploads/${safeName}`;
+    const base64 = Buffer.from(bytes).toString("base64");
+    const url = `data:${file.type};base64,${base64}`;
     return NextResponse.json({ url });
   } catch (err) {
     console.error("Upload error:", err);
