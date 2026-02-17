@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Applicant {
+  id                  String   @id @default(cuid())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Basic identity
+  photoUrl            String?
+  firstName           String
+  lastName            String
+
+  // Application details
+  dateOfVisaApplication DateTime
+  visaReferenceNumber   String
+
+  // Applicant's details
+  dateOfBirth         DateTime
+  nationality         String
+  passportNumber      String
+
+  // Visa grant details
+  visaCategory        String
+  visaSubCategory     String
+  applicationType     String
+  visaGrantDate       DateTime
+  travelDocumentCountry String
+  stayFacility        String
+  visaStartDate       DateTime
+  visaEndDate         DateTime
+  visaDurationDays    Int
+
+  // Generated codes
+  mrzCode             String
+  qrCodeDataUrl       String
+}
+

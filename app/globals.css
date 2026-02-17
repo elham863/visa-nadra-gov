@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-slate-950 text-slate-100;
+}
+
+/* Print: full-page visa document with correct layout and colors */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  html,
+  body,
+  main {
+    height: auto !important;
+    overflow: visible !important;
+    min-height: 0 !important;
+  }
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* Hide overlay */
+  .print\\:hidden {
+    display: none !important;
+  }
+  /* Modal outer: no fixed positioning so content can flow to full height */
+  .print-modal-outer {
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+  /* Modal inner: no max-height or overflow so full document is visible */
+  .print-modal-inner {
+    position: static !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    width: 100% !important;
+    max-width: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  /* Visa wrapper: exactly one A4 page, content scaled to fit inside */
+  .print-visa-wrapper {
+    width: 210mm !important;
+    height: 297mm !important;
+    overflow: hidden !important;
+    position: relative !important;
+    background: white !important;
+    padding: 0 !important;
+    display: block !important;
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+  /* Visa document: scale down to fit one page (no second page) */
+  .print-visa-wrapper > div,
+  .visa-document-print {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    transform: scale(0.88) !important;
+    transform-origin: top left !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    box-shadow: none !important;
+  }
+  /* Tables and colored cells must print */
+  .visa-document-print,
+  .visa-document-print *,
+  .print-visa-wrapper [class*="bg-"],
+  .print-visa-wrapper [style*="background"],
+  .print-visa-wrapper .border {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+

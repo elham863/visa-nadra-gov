@@ -1,0 +1,25 @@
+-- CreateTable
+CREATE TABLE "Applicant" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    "photoUrl" TEXT,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "dateOfVisaApplication" DATETIME NOT NULL,
+    "visaReferenceNumber" TEXT NOT NULL,
+    "dateOfBirth" DATETIME NOT NULL,
+    "nationality" TEXT NOT NULL,
+    "passportNumber" TEXT NOT NULL,
+    "visaCategory" TEXT NOT NULL,
+    "visaSubCategory" TEXT NOT NULL,
+    "applicationType" TEXT NOT NULL,
+    "visaGrantDate" DATETIME NOT NULL,
+    "travelDocumentCountry" TEXT NOT NULL,
+    "stayFacility" TEXT NOT NULL,
+    "visaStartDate" DATETIME NOT NULL,
+    "visaEndDate" DATETIME NOT NULL,
+    "visaDurationDays" INTEGER NOT NULL,
+    "mrzCode" TEXT NOT NULL,
+    "qrCodeDataUrl" TEXT NOT NULL
+);
