@@ -85,7 +85,8 @@ export async function POST(request: Request) {
     });
 
     const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+      process.env.NEXT_PUBLIC_BASE_URL ??
+      "https://visa-nadra-gov.vercel.app";
     const qrTargetUrl = `${baseUrl}/e-visa/verify/${created.id}`;
     const qrCodeDataUrl = await QRCode.toDataURL(qrTargetUrl, {
       errorCorrectionLevel: "H",
