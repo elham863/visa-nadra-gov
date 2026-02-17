@@ -8,6 +8,17 @@ export default async function PublicApplicantPage({
 }) {
   try {
     const { id } = await params;
+    
+    if (!id || typeof id !== "string") {
+      return (
+        <div className="flex min-h-screen items-center justify-center bg-white px-4">
+          <div className="rounded-xl border border-gray-200 bg-gray-50 p-6 text-center text-sm text-gray-700">
+            Invalid verification ID.
+          </div>
+        </div>
+      );
+    }
+
     const applicant = await prisma.applicant.findUnique({
       where: { id }
     });
