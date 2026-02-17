@@ -165,8 +165,11 @@ export async function GET(
   });
 
   const pdfBytes = await pdfDoc.save();
+  const pdfBlob = new Blob([pdfBytes as unknown as BlobPart], {
+    type: "application/pdf"
+  });
 
-  return new NextResponse(pdfBytes, {
+  return new NextResponse(pdfBlob, {
     status: 200,
     headers: {
       "Content-Type": "application/pdf",
