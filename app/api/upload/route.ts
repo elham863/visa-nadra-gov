@@ -22,10 +22,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 3 * 1024 * 1024; // 3MB (keeps response under Vercel 4.5MB limit)
     if (file.size > maxSize) {
       return NextResponse.json(
-        { error: "File too large. Max 5MB." },
+        { error: "File too large. Max 3MB." },
         { status: 400 }
       );
     }
