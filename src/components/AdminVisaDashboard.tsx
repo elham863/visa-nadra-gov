@@ -7,6 +7,7 @@ import { NewApplicantForm } from "./NewApplicantForm";
 import VisaDocument from "./VisaDocument";
 import type { VisaApplicantLike } from "./VisaGrantNotice";
 import type { VisaDocumentHandle } from "./VisaDocument";
+import { getQrBaseUrl } from "@/src/lib/env";
 
 type Applicant = VisaApplicantLike & { id: string };
 
@@ -318,14 +319,14 @@ export function AdminVisaDashboard({
                   >
                     {regeneratingQrId === previewApplicant.id ? "Regenerating…" : "Regenerate QR"}
                   </button>
-                  <Link
-                    href={`/e-visa/verify/${previewApplicant.id}`}
+                  <a
+                    href={`${getQrBaseUrl()}/e-visa/verify/${previewApplicant.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
                   >
                     Open public page
-                  </Link>
+                  </a>
                   <button
                     type="button"
                     onClick={() =>
