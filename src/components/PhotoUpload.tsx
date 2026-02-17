@@ -246,7 +246,7 @@ export function PhotoUpload({ value, onChange, disabled }: PhotoUploadProps) {
             crop={crop}
             onChange={(pixelCrop) => setCrop(pixelCrop)}
             aspect={VISA_PHOTO_ASPECT}
-            circular={false}
+            circularCrop={false}
             className="max-h-[280px] w-full max-w-full"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
