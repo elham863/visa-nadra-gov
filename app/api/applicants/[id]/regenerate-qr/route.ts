@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import QRCode from "qrcode";
 import { prisma } from "@/src/lib/prisma";
+import { getQrBaseUrl } from "@/src/lib/env";
 
 const QR_OPTIONS = {
   errorCorrectionLevel: "H" as const,
@@ -20,9 +21,7 @@ export async function POST(
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
-    const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL ??
-      "https://visa-nadra-gov.vercel.app";
+    const baseUrl = getQrBaseUrl();
     const qrTargetUrl = `${baseUrl}/e-visa/verify/${applicant.id}`;
     const qrCodeDataUrl = await QRCode.toDataURL(qrTargetUrl, QR_OPTIONS);
 
