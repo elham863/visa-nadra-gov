@@ -41,7 +41,7 @@ export async function GET(
   const formatDate = (value: Date) =>
     new Date(value).toLocaleDateString("en-GB", {
       day: "2-digit",
-      month: "MMM",
+      month: "short",   // was "MMM"
       year: "numeric"
     });
 
