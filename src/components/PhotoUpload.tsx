@@ -138,8 +138,8 @@ export function PhotoUpload({ value, onChange, disabled }: PhotoUploadProps) {
       setError("Please select an image (JPEG, PNG, WebP, GIF).");
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
-      setError("Image must be under 5MB.");
+      if (file.size > 3 * 1024 * 1024) {
+        setError("Image must be under 3MB.");
       return;
     }
 
@@ -332,7 +332,7 @@ export function PhotoUpload({ value, onChange, disabled }: PhotoUploadProps) {
           <>
             <span className="text-sm font-medium text-slate-600">Upload photo</span>
             <span className="mt-1 text-xs text-slate-500">
-              JPEG, PNG, WebP or GIF, max 5MB
+              JPEG, PNG, WebP or GIF, max 3MB
             </span>
           </>
         )}
