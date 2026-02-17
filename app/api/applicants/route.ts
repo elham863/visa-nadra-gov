@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import QRCode from "qrcode";
 import { prisma } from "@/src/lib/prisma";
 import { buildMrzCode } from "@/src/lib/codes";
+import { getQrBaseUrl } from "@/src/lib/env";
 
 function parseDate(value: unknown): Date {
   if (typeof value !== "string") {
@@ -84,9 +85,7 @@ export async function POST(request: Request) {
       }
     });
 
-    const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL ??
-      "https://visa-nadra-gov.vercel.app";
+    const baseUrl = getQrBaseUrl();
     const qrTargetUrl = `${baseUrl}/e-visa/verify/${created.id}`;
     const qrCodeDataUrl = await QRCode.toDataURL(qrTargetUrl, {
       errorCorrectionLevel: "H",
@@ -108,4 +107,3 @@ export async function POST(request: Request) {
     );
   }
 }
-
