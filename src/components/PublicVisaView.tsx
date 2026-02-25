@@ -211,7 +211,7 @@ export function PublicVisaView({ applicant }: { applicant: VisaApplicantLike }) 
               <div className="flex flex-col items-center md:flex-row md:items-start md:gap-10">
                 {/* Applicant photo - on mobile name under photo; on desktop photo only */}
                 <div className="flex shrink-0 flex-col items-center md:items-start">
-                  <div className="relative h-[170px] w-[140px] overflow-hidden rounded-sm border border-gray-300 bg-gray-200 md:h-[180px] md:w-[140px] md:border-gray-200 md:bg-white">
+                  <div className="relative h-[170px] w-[140px] overflow-hidden rounded-sm bg-gray-200 md:h-[180px] md:w-[140px] md:bg-white">
                     {applicant.photoUrl ? (
                       <img
                         src={applicant.photoUrl}
