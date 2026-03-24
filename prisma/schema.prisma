@@ -42,3 +42,9 @@ model Applicant {
   qrCodeDataUrl       String
 }
 
+model AppControl {
+  id        String   @id
+  powerOn   Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}
+
