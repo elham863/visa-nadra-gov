@@ -13,7 +13,7 @@ This is a fullstack Next.js application for managing visa-style applicant record
   - Fill-in all required fields (names, dates, passport, visa details, etc.)
   - On save, the backend:
     - Stores the record in the database via Prismaaaa
-    - Generates the MRZ-style code
+    - Generates the MRZ-style codebbbbb
     - Generates a QR code (PNG as a data URL) that encodes the public verification URL
 - **List & edit applicants**: `Admin → /admin?tab=list` (or `/admin/list` which redirects there)
   - Shows all applicants with:
