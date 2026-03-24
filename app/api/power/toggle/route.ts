@@ -1,19 +1,34 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { timingSafeEqual } from "crypto";
 import { setPowerState } from "@/src/lib/power";
 
-const ADMIN_COOKIE = "visa_admin_auth";
+function verifyToggleSecret(provided: unknown, expected: string | undefined) {
+  if (typeof provided !== "string" || !expected || expected.length === 0) {
+    return false;
+  }
+  if (provided.length !== expected.length) {
+    return false;
+  }
+  try {
+    return timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
+  } catch {
+    return false;
+  }
+}
 
 export async function POST(request: Request) {
   try {
-    const cookieStore = await cookies();
-    const adminCookie = cookieStore.get(ADMIN_COOKIE)?.value;
-    if (adminCookie !== "true") {
+    const body = await request.json();
+    const powerOn = body?.powerOn;
+    const secretOk = verifyToggleSecret(
+      body?.secret,
+      process.env.POWER_TOGGLE_SECRET
+    );
+
+    if (!secretOk) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const powerOn = body?.powerOn;
     if (typeof powerOn !== "boolean") {
       return NextResponse.json(
         { error: "Invalid payload. powerOn must be boolean." },
