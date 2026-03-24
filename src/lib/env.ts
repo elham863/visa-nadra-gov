@@ -3,15 +3,8 @@ export const DEFAULT_QR_BASE_URL = "https://visa-nadra-gov.vercel.app";
 
 /**
  * Base URL for QR codes (must be absolute so scanned links work from any device).
- * Treats empty or whitespace env as missing so we never encode a relative URL.
+ * For now we force Vercel domain to avoid mismatches while custom domain is being fixed.
  */
 export function getQrBaseUrl(): string {
-  const raw =
-    typeof process.env.NEXT_PUBLIC_BASE_URL === "string"
-      ? process.env.NEXT_PUBLIC_BASE_URL.trim()
-      : "";
-  if (raw.startsWith("http://") || raw.startsWith("https://")) {
-    return raw.replace(/\/+$/, ""); // strip trailing slashes
-  }
   return DEFAULT_QR_BASE_URL;
 }
