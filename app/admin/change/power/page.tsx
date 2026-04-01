@@ -16,7 +16,7 @@ export default function AdminPowerPage() {
       if (!res.ok) {
         throw new Error(data?.error || "Failed to load power state.");
       }
-      setPowerOn(Boolean(data.powerOn));
+      setPowerOn(data.powerOn !== false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load state.");
     }
@@ -52,7 +52,7 @@ export default function AdminPowerPage() {
               : "Failed to update power state.")
         );
       }
-      setPowerOn(Boolean(data.powerOn));
+      setPowerOn(data.powerOn !== false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to update state.");
     } finally {
