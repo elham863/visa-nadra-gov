@@ -24,10 +24,19 @@ function isExemptFromPowerOff(pathname: string): boolean {
 
 async function isPowerOn(request: NextRequest): Promise<boolean> {
   try {
-    const statusUrl = new URL("/api/power/status", request.url);
+    // Use origin only (not full request.url) so the status URL is stable.
+    // Cache-bust every call: Next.js can still associate internal fetches with the
+    // Data Cache; a unique query string avoids stale { powerOn: false } after toggling ON.
+    const statusUrl = new URL("/api/power/status", request.nextUrl.origin);
+    statusUrl.searchParams.set("_", crypto.randomUUID());
     const res = await fetch(statusUrl, {
       method: "GET",
-      cache: "no-store"
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-store",
+        Pragma: "no-cache"
+      },
+      next: { revalidate: 0 }
     });
     if (!res.ok) {
       return true;
