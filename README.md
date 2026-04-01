@@ -1,6 +1,7 @@
 ## Visa QR Admin project
 
-This is a fullstack Next.js application for managing visa-style applicant records. It provides:
+This is a fullstack Next.js application for managing visa-style applicant records. It provides:jf
+
 
 - **Admin pages** (protected by a simple password) to create and edit applicants
 - **Backend API** using **Prisma** with a **PostgreSQL** database (e.g. [Neon](https://neon.tech) or Vercel Postgres)
