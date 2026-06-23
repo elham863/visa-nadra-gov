@@ -5,7 +5,7 @@ import { buildMrzCode } from "@/src/lib/codes";
 import { getQrBaseUrl } from "@/src/lib/env";
 
 function parseDate(value: unknown): Date {
-  if (typeof value !== "string") {
+  if (typeof value !== "string" || value.trim() === "") {
     throw new Error("Invalid date value");
   }
   const d = new Date(value);
@@ -13,6 +13,17 @@ function parseDate(value: unknown): Date {
     throw new Error(`Invalid date: ${value}`);
   }
   return d;
+}
+
+function parseDateMaybe(value: unknown): Date | null {
+  if (value == null || value === "") {
+    return null;
+  }
+  try {
+    return parseDate(value);
+  } catch {
+    return null;
+  }
 }
 
 export async function GET() {
@@ -53,6 +64,13 @@ export async function POST(request: Request) {
       );
     }
 
+    const visaStart = parseDate(visaStartDate);
+    const visaEnd = parseDate(visaEndDate);
+    const resolvedDateOfVisaApplication =
+      parseDateMaybe(dateOfVisaApplication) ?? visaStart;
+    const resolvedDateOfBirth = parseDateMaybe(dateOfBirth) ?? visaStart;
+    const resolvedVisaGrantDate = parseDateMaybe(visaGrantDate) ?? visaStart;
+
     const mrzCode = buildMrzCode({
       firstName,
       lastName,
@@ -66,19 +84,19 @@ export async function POST(request: Request) {
         photoUrl: photoUrl || null,
         firstName,
         lastName,
-        dateOfVisaApplication: parseDate(dateOfVisaApplication),
+        dateOfVisaApplication: resolvedDateOfVisaApplication,
         visaReferenceNumber,
-        dateOfBirth: parseDate(dateOfBirth),
+        dateOfBirth: resolvedDateOfBirth,
         nationality,
         passportNumber,
         visaCategory,
         visaSubCategory,
         applicationType,
-        visaGrantDate: parseDate(visaGrantDate),
+        visaGrantDate: resolvedVisaGrantDate,
         travelDocumentCountry,
         stayFacility,
-        visaStartDate: parseDate(visaStartDate),
-        visaEndDate: parseDate(visaEndDate),
+        visaStartDate: visaStart,
+        visaEndDate: visaEnd,
         visaDurationDays: Number(visaDurationDays),
         mrzCode,
         qrCodeDataUrl: "" // placeholder, updated below
