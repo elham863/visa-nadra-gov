@@ -12,7 +12,7 @@ const VISA_CATEGORIES = [
 
 const VISA_SUB_CATEGORIES = [
   "Individual",
-  "Individual (less than 3 Months)",
+  "Individual (less Than 3 Months)",
   "General"
 ] as const;
 
