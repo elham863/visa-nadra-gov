@@ -1,22 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { PhotoUpload } from "./PhotoUpload";
+
+const VISA_CATEGORIES = [
+  "Business",
+  "Tourist/Visit",
+  "Work",
+  "Medical"
+] as const;
+
+const VISA_SUB_CATEGORIES = [
+  "Individual",
+  "Individual (less than 3 Months)",
+  "General"
+] as const;
+
+const APPLICATION_TYPES = ["Entry", "Extension"] as const;
+
+const VISA_DURATION_PRESETS = ["60", "90", "180", "365"] as const;
 
 type FormState = {
   photoUrl: string;
   firstName: string;
   lastName: string;
-  dateOfVisaApplication: string;
   visaReferenceNumber: string;
-  dateOfBirth: string;
   nationality: string;
   passportNumber: string;
   visaCategory: string;
   visaSubCategory: string;
   applicationType: string;
-  visaGrantDate: string;
   travelDocumentCountry: string;
   stayFacility: string;
   visaStartDate: string;
@@ -28,20 +41,17 @@ const defaultForm: FormState = {
   photoUrl: "",
   firstName: "",
   lastName: "",
-  dateOfVisaApplication: "",
   visaReferenceNumber: "",
-  dateOfBirth: "",
-  nationality: "",
+  nationality: "Afghan",
   passportNumber: "",
   visaCategory: "Business",
   visaSubCategory: "Individual",
   applicationType: "Entry",
-  visaGrantDate: "",
   travelDocumentCountry: "Afghanistan",
   stayFacility: "MultipleEntry - Upto 1 Year",
   visaStartDate: "",
   visaEndDate: "",
-  visaDurationDays: ""
+  visaDurationDays: "60"
 };
 
 const inputClass =
@@ -140,43 +150,21 @@ export function NewApplicantForm({
 
       <section className="grid gap-4 sm:grid-cols-[1fr,2fr]">
         <h4 className="text-sm font-semibold text-slate-700">Application details</h4>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div>
-            <label className={labelClass}>Date of visa application</label>
-            <input
-              type="date"
-              className={inputClass}
-              value={form.dateOfVisaApplication}
-              onChange={(e) => handleChange("dateOfVisaApplication", e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label className={labelClass}>Visa reference number</label>
-            <input
-              type="text"
-              className={inputClass}
-              value={form.visaReferenceNumber}
-              onChange={(e) => handleChange("visaReferenceNumber", e.target.value)}
-              required
-            />
-          </div>
+        <div>
+          <label className={labelClass}>Visa reference number</label>
+          <input
+            type="text"
+            className={inputClass}
+            value={form.visaReferenceNumber}
+            onChange={(e) => handleChange("visaReferenceNumber", e.target.value)}
+            required
+          />
         </div>
       </section>
 
       <section className="grid gap-4 sm:grid-cols-[1fr,2fr]">
         <h4 className="text-sm font-semibold text-slate-700">Applicant details</h4>
         <div className="grid gap-3 sm:grid-cols-2">
-          <div>
-            <label className={labelClass}>Date of birth</label>
-            <input
-              type="date"
-              className={inputClass}
-              value={form.dateOfBirth}
-              onChange={(e) => handleChange("dateOfBirth", e.target.value)}
-              required
-            />
-          </div>
           <div>
             <label className={labelClass}>Nationality</label>
             <input
@@ -187,7 +175,7 @@ export function NewApplicantForm({
               required
             />
           </div>
-          <div className="sm:col-span-2">
+          <div>
             <label className={labelClass}>Passport number</label>
             <input
               type="text"
@@ -205,41 +193,45 @@ export function NewApplicantForm({
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
             <label className={labelClass}>Visa category</label>
-            <input
-              type="text"
+            <select
               className={inputClass}
               value={form.visaCategory}
               onChange={(e) => handleChange("visaCategory", e.target.value)}
-              placeholder="Business"
-            />
+            >
+              {VISA_CATEGORIES.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <label className={labelClass}>Visa sub category</label>
-            <input
-              type="text"
+            <select
               className={inputClass}
               value={form.visaSubCategory}
               onChange={(e) => handleChange("visaSubCategory", e.target.value)}
-            />
+            >
+              {VISA_SUB_CATEGORIES.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <label className={labelClass}>Application type</label>
-            <input
-              type="text"
+            <select
               className={inputClass}
               value={form.applicationType}
               onChange={(e) => handleChange("applicationType", e.target.value)}
-            />
-          </div>
-          <div>
-            <label className={labelClass}>Visa grant date</label>
-            <input
-              type="date"
-              className={inputClass}
-              value={form.visaGrantDate}
-              onChange={(e) => handleChange("visaGrantDate", e.target.value)}
-              required
-            />
+            >
+              {APPLICATION_TYPES.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <label className={labelClass}>Travel document country</label>
@@ -284,11 +276,18 @@ export function NewApplicantForm({
             <label className={labelClass}>Visa duration (days)</label>
             <input
               type="number"
-              min={0}
+              min={1}
+              list="visa-duration-presets"
               className={inputClass}
               value={form.visaDurationDays}
               onChange={(e) => handleChange("visaDurationDays", e.target.value)}
+              placeholder="Choose a preset or type a custom value"
             />
+            <datalist id="visa-duration-presets">
+              {VISA_DURATION_PRESETS.map((days) => (
+                <option key={days} value={days} />
+              ))}
+            </datalist>
           </div>
         </div>
       </section>
